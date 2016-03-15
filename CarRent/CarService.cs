@@ -9,7 +9,7 @@ namespace CarRent
     public class CarService
     {
         public Car[] Cars { get; private set; }
-        private List<Rent> _rents;
+        public List<Rent> Rents { get; private set; }
         private CarRentRepository _repository;
 
         public CarService(Car[] cars, CarRentRepository repository)
@@ -20,17 +20,36 @@ namespace CarRent
 
         public void RentCar(Rent rent)
         {
+            Rents = CarRentRepository.LoadCarRents().ToList();
             if (CheckIfCarRented(rent))
             {
                 return;
             }
-            _rents.Add(rent);
-            _repository.SaveCarRents(_rents.ToArray());
+            Rents.Add(rent);
+            CarRentRepository.SaveCarRents(Rents.ToArray());
         }
 
         private bool CheckIfCarRented(Rent rent)
         {
-            // Проверить, что машина свободна на время аренды
+            Rent[] rentedCars = CarRentRepository.LoadCarRents();
+            if (rentedCars.Length == 0)
+            {
+                return false;
+            }
+            else
+            {
+                foreach (var rentedCar in rentedCars)
+                {
+                    if (rentedCar.RentedCar == rent.RentedCar)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
             return false;
         }
     }

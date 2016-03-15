@@ -29,13 +29,20 @@ namespace CarRentInterface
             var rentedCar = (Car)carList.SelectedItem;
             if (rentedCar == null)
             {
-                return;
+                MessageBox.Show("Автомобиль для аренды не выбран");
             }
             var client = new Client(textBoxName.Text);
             var rentedFrom = dateTimePicerFrom.Value;
             var rentedTo = dateTimePickerTo.Value;
-            var rent = new Rent(rentedFrom, rentedTo, client, rentedCar);
-            carService.RentCar(rent);
+            if (rentedFrom.CompareTo(rentedTo) > 0)
+            {
+                MessageBox.Show("Неверный промежуток времени аренды");
+            }
+            else
+            {
+                var rent = new Rent(rentedFrom, rentedTo, client, rentedCar);
+                carService.RentCar(rent);
+            }
         }
 
         private void carList_SelectedIndexChanged(object sender, EventArgs e)

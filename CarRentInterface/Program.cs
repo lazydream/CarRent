@@ -15,17 +15,9 @@ namespace CarRentInterface
         [STAThread]
         static void Main()
         {
-            var hardCodedCarList = new Car[]
-            {
-                new Car("BMW", "Description BWM"),
-                new Car("Ford", "Description Ford"),
-                new Car("Lada", "Description Lada"),
-                new Car("Nissan", "Description Nissan")
-            };
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1(hardCodedCarList));
+            Application.Run(new Form1(CarRentRepository.LoadCars()));
         }
     }
 }
