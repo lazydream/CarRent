@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 namespace CarRent
 {
     [DataContract]
-    public class Rent
+    public class Rent : IEquatable<Rent>
     {
         [DataMember]
         public DateTime From { get; private set; }
@@ -30,6 +30,38 @@ namespace CarRent
         public Rent()
         {
 
+        }
+
+        public override bool Equals(object rentObj)
+        {
+            var rentToCompare = rentObj as Rent;
+            if (rentToCompare == null)
+            {
+                return false;
+            }
+            return Equals(rentToCompare);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public bool Equals(Rent other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            if (RentedCar.Model == other.RentedCar.Model & RentedCar.Description == other.RentedCar.Description)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

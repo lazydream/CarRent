@@ -18,15 +18,16 @@ namespace CarRent
             _repository = repository;
         }
 
-        public void RentCar(Rent rent)
+        public bool RentCar(Rent rent)
         {
             Rents = CarRentRepository.LoadCarRents().ToList();
             if (CheckIfCarRented(rent))
             {
-                return;
+                return false;
             }
             Rents.Add(rent);
             CarRentRepository.SaveCarRents(Rents.ToArray());
+            return true;
         }
 
         private bool CheckIfCarRented(Rent rent)
@@ -38,9 +39,9 @@ namespace CarRent
             }
             else
             {
-                foreach (var rentedCar in rentedCars)
+                foreach (Rent rentedCar in rentedCars)
                 {
-                    if (rentedCar.RentedCar == rent.RentedCar)
+                    if (rent.Equals(rentedCar))
                     {
                         return true;
                     }
@@ -49,8 +50,8 @@ namespace CarRent
                         return false;
                     }
                 }
+                return true;
             }
-            return false;
         }
     }
 }
