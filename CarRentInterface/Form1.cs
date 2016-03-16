@@ -41,8 +41,7 @@ namespace CarRentInterface
             else
             {
                 var rent = new Rent(rentedFrom, rentedTo, client, rentedCar);
-                string message = carService.RentCar(rent) ? "Машина в вашем распоряжении!" : "Данный автомобиль уже арендован, выберите другой из списка";
-                MessageBox.Show(message);
+                MessageBox.Show(carService.RentCar(rent) ? String.Format($"Машина {rentedCar.Model} в вашем распоряжении!") : String.Format("Данный автомобиль уже арендован, выберите другой из списка"));
             }
         }
 
